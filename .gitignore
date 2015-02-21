@@ -119,3 +119,6 @@ target/
 
 # django-heroku
 staticfiles
+
+# test database file (sqlite3)
+db.sqlite3
