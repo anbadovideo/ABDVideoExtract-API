@@ -4,7 +4,7 @@ from django.contrib import admin
 from .models import Video, Ekisu
 
 class VideoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title']
+    list_display = ['id', 'title', 'duration', ]
     list_editable = ['title']
     search_fields = ['title']
     ordering = ['title']
@@ -12,7 +12,7 @@ class VideoAdmin(admin.ModelAdmin):
 
 class EkisuAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'created']
-    list_filter = ['video_id']
+    list_filter = ['video']
     list_display_links = ['id', 'title']
     search_fields = ['title', 'content']
     ordering = ['-created']
