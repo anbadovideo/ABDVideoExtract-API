@@ -1,6 +1,7 @@
 __author__ = 'seung-wongim'
 
 from django.db import models
+from rest_framework import serializers
 
 
 class Video(models.Model):
@@ -8,7 +9,7 @@ class Video(models.Model):
         verbose_name = '동영상'
         ordering = ['title']
 
-    identifer = models.CharField(verbose_name='identifier', max_length=256, null=False, blank=False, default='')
+    identifier = models.CharField(verbose_name='identifier', max_length=256, null=False, blank=False, default='')
     provider = models.CharField(verbose_name='제공자', max_length=512, default='')
     title = models.CharField(verbose_name='제목', max_length=512)
     thumbnail = models.CharField(verbose_name='썸네일', max_length=1024, default='')
@@ -17,6 +18,12 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ('id', 'identifier', 'provider', 'title', 'thumbnail', 'view_count', 'duration')
 
 
 class Ekisu(models.Model):
@@ -32,3 +39,10 @@ class Ekisu(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class EkisuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ekisu
+        fields = ('id', 'video', 'title', 'thumbnail', 'section', 'created')
+
