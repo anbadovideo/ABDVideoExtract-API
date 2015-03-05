@@ -14,5 +14,6 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 class EkisuViewSet(viewsets.ModelViewSet):
     queryset = Ekisu.objects.all()
+    # queryset = Ekisu.objects.select_related()
     serializer_class = EkisuSerializer
     permission_classes = (permissions.IsAdminOrReadOnly,)

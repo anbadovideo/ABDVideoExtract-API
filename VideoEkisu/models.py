@@ -31,7 +31,8 @@ class Ekisu(models.Model):
         verbose_name = '엑기스'
         ordering = ['created']
 
-    video = models.ForeignKey(Video, verbose_name='엑기스', null=False, blank=False)
+    # video = models.ForeignKey(Video, verbose_name='엑기스', null=False, blank=False)
+    video = models.OneToOneField(Video)
     title = models.CharField(verbose_name='제목', max_length=256)
     thumbnail = models.CharField(verbose_name='썸네일', max_length=1024, default='')
     section = models.TextField(verbose_name='구간', max_length=2048, blank=False)
