@@ -2,6 +2,7 @@ __author__ = 'seung-wongim'
 
 from django.db import models
 from rest_framework import serializers
+from VideoEkisu import utilities
 
 
 class Video(models.Model):
@@ -36,6 +37,7 @@ class Ekisu(models.Model):
     title = models.CharField(verbose_name='제목', max_length=256)
     thumbnail = models.CharField(verbose_name='썸네일', max_length=1024, default='')
     section = models.TextField(verbose_name='구간', max_length=2048, blank=False)
+    duration = models.IntegerField(verbose_name='엑기스시간', default=0)
     created = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     def __str__(self):
@@ -45,5 +47,10 @@ class Ekisu(models.Model):
 class EkisuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ekisu
-        fields = ('id', 'video', 'title', 'thumbnail', 'section', 'created')
+        fields = ('id', 'video', 'title', 'thumbnail', 'section', 'duration', 'created')
 
+    video = VideoSerializer(read_only=True)
+    duration = serializers.SerializerMethodField()
+
+    def get_duration(self, obj):
+        return utilities.ekisu_duration(obj.section)

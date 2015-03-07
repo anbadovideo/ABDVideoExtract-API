@@ -1,4 +1,4 @@
-from VideoEkisu import permissions
+from VideoEkisu import permissions, utilities
 from rest_framework import viewsets
 
 __author__ = 'seung-wongim'
@@ -14,6 +14,5 @@ class VideoViewSet(viewsets.ModelViewSet):
 
 class EkisuViewSet(viewsets.ModelViewSet):
     queryset = Ekisu.objects.all()
-    # queryset = Ekisu.objects.select_related()
     serializer_class = EkisuSerializer
     permission_classes = (permissions.IsAdminOrReadOnly,)
