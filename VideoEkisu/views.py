@@ -21,4 +21,4 @@ class EkisuViewSet(viewsets.ModelViewSet):
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
     serializer_class = DeviceSerializer
-    permission_classes = (permissions.IsAdminOrReadOnly,)
+    permission_classes = (permissions.WriteOnly,)
