@@ -5,6 +5,24 @@ from rest_framework import serializers
 from VideoEkisu import utilities
 
 
+class Device(models.Model):
+    class Meta:
+        verbose_name = '디바이스'
+        ordering = ['token']
+
+    token = models.CharField(verbose_name='token', max_length=2048, null=False, blank=False, default='')
+    type = models.CharField(verbose_name='type', max_length=256, null=False, blank=False, default='')
+
+    def __str__(self):
+        return self.token
+
+
+class DeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Device
+        field = ('id', 'token', 'type')
+
+
 class Video(models.Model):
     class Meta:
         verbose_name = '동영상'

@@ -7,6 +7,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('videos', views.VideoViewSet)
 router.register('ekisus', views.EkisuViewSet)
+router.register('devices', views.DeviceViewSet)
 
 urlpatterns = patterns('',
     # Examples:
