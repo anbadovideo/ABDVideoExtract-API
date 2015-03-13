@@ -9,6 +9,7 @@ class Device(models.Model):
     class Meta:
         verbose_name = '디바이스'
         ordering = ['token']
+        unique_together = ['token', 'type']
 
     token = models.CharField(verbose_name='token', max_length=2048, null=False, blank=False, default='')
     type = models.CharField(verbose_name='type', max_length=256, null=False, blank=False, default='')
