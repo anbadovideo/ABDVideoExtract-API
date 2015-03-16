@@ -49,7 +49,7 @@ class VideoSerializer(serializers.ModelSerializer):
 class Ekisu(models.Model):
     class Meta:
         verbose_name = '엑기스'
-        ordering = ['created']
+        ordering = ['-created']
 
     video = models.ForeignKey(Video, verbose_name='엑기스', null=False, blank=False)
     title = models.CharField(verbose_name='제목', max_length=256)
