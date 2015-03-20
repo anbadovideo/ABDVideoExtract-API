@@ -22,7 +22,7 @@ class EkisuViewSet(viewsets.ModelViewSet):
 class DeviceViewSet(viewsets.ModelViewSet):
     queryset = Device.objects.all()
     serializer_class = DeviceSerializer
-    permission_classes = (permissions.WriteOnly,)
+    permission_classes = (permissions.IsAdminOrWriteOnly,)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
