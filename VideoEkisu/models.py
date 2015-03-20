@@ -13,6 +13,7 @@ class Device(models.Model):
 
     token = models.CharField(verbose_name='token', max_length=2048, null=False, blank=False, default='')
     type = models.CharField(verbose_name='type', max_length=256, null=False, blank=False, default='')
+    arn = models.CharField(verbose_name='arn', max_length=2048, blank=True, default='')
 
     def __str__(self):
         return self.token
@@ -21,7 +22,7 @@ class Device(models.Model):
 class DeviceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Device
-        field = ('id', 'token', 'type')
+        field = ('id', 'token', 'type', 'arn')
 
 
 class Video(models.Model):
@@ -55,7 +56,7 @@ class Ekisu(models.Model):
     title = models.CharField(verbose_name='제목', max_length=256)
     thumbnail = models.CharField(verbose_name='썸네일', max_length=1024, default='')
     section = models.TextField(verbose_name='구간', max_length=2048, blank=False)
-    duration = models.IntegerField(verbose_name='엑기스시간', default=0)
+    duration = models.IntegerField(verbose_name='엑기스시간', default=0, editable=False)
     created = models.DateTimeField(auto_now_add=True, verbose_name='생성일')
 
     def __str__(self):
