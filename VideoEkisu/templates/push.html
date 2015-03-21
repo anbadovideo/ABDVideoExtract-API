@@ -8,23 +8,18 @@
 
 {% if device_list %}
 <ul>
-    {% for device in device_list %}
-    <li>{{ device.token }}</li>
-    {% endfor %}
+    <p>현재 {{ device_list.count }} 개의 기기가 등록되어 있습니다.</p>
 </ul>
 {% else %}
 <p>No devices are Available.</p>
 {% endif %}
 
 <h1>Push Notification Admin</h1>
-<input type="text" id="message_input" size="80"><br>
-<button type="button" id="send_button" onclick="send_push()">Send Push</button>
-
-<script>
-    function send_push() {
-        document.getElementById("send_button").innerHTML = document.getElementById("message_input").value;
-    }
-</script>
+<form method='POST' action='/admin/push'>
+    {% csrf_token %}
+    <input type="text" name="message" placeholder="푸시 보낼 메세지를 입력하세요" size="60">
+    <input type="submit" name='send_push' value="send push-noti">
+</form>
 
 </body>
 </html>
