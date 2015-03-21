@@ -1,4 +1,5 @@
 from VideoEkisu import views
+from adminplus.sites import AdminSitePlus
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework import routers
@@ -8,6 +9,9 @@ router = routers.DefaultRouter()
 router.register('videos', views.VideoViewSet)
 router.register('ekisus', views.EkisuViewSet)
 router.register('devices', views.DeviceViewSet)
+
+admin.site = AdminSitePlus()
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:

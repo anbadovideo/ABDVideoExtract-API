@@ -1,7 +1,15 @@
+from django.shortcuts import render
+
 __author__ = 'seung-wongim'
 
 from django.contrib import admin
 from .models import Video, Ekisu, Device
+
+
+def push_admin(request, *args, **kwargs):
+    template_name = 'push.html'
+    return render(request, template_name)
+admin.site.register_view('push', 'Push notification', view=push_admin)
 
 
 class VideoAdmin(admin.ModelAdmin):
