@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 __author__ = 'seung-wongim'
@@ -7,8 +8,9 @@ from .models import Video, Ekisu, Device
 
 
 def push_admin(request, *args, **kwargs):
-    template_name = 'push.html'
-    return render(request, template_name)
+    device_list = Device.objects.order_by('id')
+    context = {'device_list': device_list}
+    return render(request, 'push.html', context)
 admin.site.register_view('push', 'Push notification', view=push_admin)
 
 
