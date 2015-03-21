@@ -1,16 +1,45 @@
 __author__ = 'seung-wongim'
 
 from .models import Device
+from scarface.models import SNSDevice, APNApplication, GCMApplication, PushMessage
+
+
+def get_arn(device_token, device_type):
+    """
+    registers the device to sns
+    :param device_token: the token of device
+    :param device_type: the type of device ; 'ios' or 'gcm'
+    """
+
+    # get the correct notification platform
+    if device_type == 'ios':
+        application_platform = APNApplication()
+    else:
+        application_platform = GCMApplication()
+
+    # register the application
+    application_platform.register()
+
+    # create the device resource with the token (may be the push token or the registration id)
+    sns_device = SNSDevice(application_platform, device_token)
+
+    # register the device with sns or update the token/the attributes
+    sns_device.register_or_update(new_token=device_token, custom_user_data="device_id={0}".format('1'))
+
+    # this is important: after updating or registration,
+    # your sns resource should have a arn. save this to your database.
+    if sns_device.arn:
+        return sns_device.arn
+    else:
+        return 'invalid_arn'
 
 
 def send_message(message):
-    from scarface.models import SNSDevice, APNApplication, GCMApplication, PushMessage
-
     """
     sends a push to the targeted devices
     :param message: the text message
-    :param badge: the new badge count (only applies to ios
     """
+
     device_list = Device.objects.order_by('id')
 
 # set up the application. in this scenario we can target both platforms

@@ -1,4 +1,4 @@
-from VideoEkisu import permissions, utilities
+from VideoEkisu import permissions, notification
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
@@ -28,39 +28,12 @@ class DeviceViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        serializer.validated_data['arn'] = self.get_arn(request)
+        device = request.data
+        # register device token and get arn from Amazon SNS.
+        arn = notification.get_arn(device_token=device['token'], device_type=device['type'])
+        # replace arn data to new arn.
+        serializer.validated_data['arn'] = arn
         serializer.save()
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-    def get_arn(self, request):
-        from scarface.models import SNSDevice, APNApplication, GCMApplication
-
-        """
-        registers the device to sns
-        :param your_device_instance: the device
-        :param token: the push token or the registration id
-        """
-        device = request.data
-
-        # get the correct notification platform
-        if device['type'] == 'ios':
-            application_platform = APNApplication()
-        else:
-            application_platform = GCMApplication()
-
-        # register the application
-        application_platform.register()
-
-        # create the device resource with the token (may be the push token or the registration id)
-        sns_device = SNSDevice(application_platform, device['token'])
-
-        # register the device with sns or update the token/the attributes
-        sns_device.register_or_update(new_token=device['token'], custom_user_data="device_id={0}".format('1'))
-
-        # this is important: after updating or registration,
-        # your sns resource should have a arn. save this to your database.
-        if sns_device.arn:
-            return sns_device.arn
-        else:
-            return 'invalid_arn'
