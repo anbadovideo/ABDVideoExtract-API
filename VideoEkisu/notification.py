@@ -1,3 +1,5 @@
+import logging
+
 __author__ = 'seung-wongim'
 
 from .models import Device
@@ -10,6 +12,9 @@ def get_arn(device_token, device_type):
     :param device_token: the token of device
     :param device_type: the type of device ; 'ios' or 'gcm'
     """
+
+    logger = logging.getLogger(__name__)
+    logger.warning(device_token)
 
     # get the correct notification platform
     if device_type == 'ios':
@@ -29,6 +34,7 @@ def get_arn(device_token, device_type):
     # this is important: after updating or registration,
     # your sns resource should have a arn. save this to your database.
     if sns_device.arn:
+        logger.warning(sns_device.arn)
         return sns_device.arn
     else:
         return 'invalid_arn'
