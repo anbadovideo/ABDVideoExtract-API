@@ -1,3 +1,5 @@
+import os
+import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -8,15 +10,26 @@ from .models import Video, Ekisu, Device
 
 
 def push_admin(request, *args, **kwargs):
+    device_list = Device.objects.order_by('id')
     if request.method == 'GET':
-        device_list = Device.objects.order_by('id')
         context = {'device_list': device_list}
         return render(request, 'push.html', context)
     else:
         message = request.POST['message']
-        # Todo : need to process push message.
+        for device in device_list:
+            send_push(device=device.token, message=message)
         return HttpResponse('complete')
 admin.site.register_view('push', 'Push notification', view=push_admin)
+
+
+def send_push(device, message):
+    post_data = {'token': os.environ.get('APNS_PROD_TOKEN'),
+                 'message': message,
+                 'badge': 1,
+                 'device': device}
+    response = requests.post('http://push.anbado.com/push/to-single-device', data=post_data)
+    content = response.content
+    return HttpResponse(content)
 
 
 class VideoAdmin(admin.ModelAdmin):
