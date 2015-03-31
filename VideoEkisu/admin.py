@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from VideoEkisu import notification
 
 __author__ = 'seung-wongim'
 
@@ -15,7 +14,7 @@ def push_admin(request, *args, **kwargs):
         return render(request, 'push.html', context)
     else:
         message = request.POST['message']
-        notification.send_message(message=message)
+        # Todo : need to process push message.
         return HttpResponse('complete')
 admin.site.register_view('push', 'Push notification', view=push_admin)
 

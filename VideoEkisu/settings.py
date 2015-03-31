@@ -37,7 +37,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'scarface',
     'adminplus',
     'VideoEkisu'
 )
@@ -57,19 +56,8 @@ REST_FRAMEWORK = {
     'PAGINATE_BY': 10
 }
 
-SOUTH_MIGRATION_MODULES = {
-    "scarface": "scarface.migrations"
-}
-
 AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-
-SCARFACE_APNS_MODE = os.environ.get('APNS_MODE')
-SCARFACE_SNS_APP_PREFIX = os.environ.get('SNS_APP_PREFIX')
-SCARFACE_LOGGING_ENABLED = True
-
-SCARFACE_APNS_CERTIFICATE = os.environ.get('APNS_CERTIFICATE')
-SCARFACE_APNS_PRIVATE_KEY = os.environ.get('APNS_PRIVATE_KEY')
 
 ROOT_URLCONF = 'VideoEkisu.urls'
 
